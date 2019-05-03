@@ -2,6 +2,13 @@ package com.shiromabruno.modelconceitual.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+
 public class Categoria implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
 	//para que OBJs possam ser gravados em arquivos, trafegar em redes... etc
@@ -9,7 +16,8 @@ public class Categoria implements Serializable{
 	private static final long serialVersionUID = 1L;
 	//Significa que a minha classe eh a versao 1
 
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	
