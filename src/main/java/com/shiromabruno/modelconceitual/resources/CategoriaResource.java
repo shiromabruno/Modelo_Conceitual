@@ -24,7 +24,7 @@ public class CategoriaResource {
 //	public List<Categoria> listar() {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 // ? significa que pode trazer ou nao o obj		
-		Categoria obj = service.buscar(id);
+		Categoria obj = service.find(id);
 		
 		return ResponseEntity.ok().body(obj);
 				
