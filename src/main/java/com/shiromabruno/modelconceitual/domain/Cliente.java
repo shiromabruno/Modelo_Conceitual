@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shiromabruno.modelconceitual.domain.enums.TipoCliente;
 
 @Entity
@@ -34,6 +35,9 @@ public class Cliente implements Serializable{
 	// mas externamente a classe vai expor esse dado como sendo TipoCliente
 	private Integer tipo;
 	
+	// esse comando eh pra fazer referencia ciclica somente aqui, e nao nos enderecos, senao cliente tem enderecos
+	// e esses enderecos tem clientes, que por sua vez tem enderecos, que por sua vez tem clientes...
+	@JsonManagedReference
 	//esse "cliente" eh o nome do campo que foi mapeado la em endereço
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();

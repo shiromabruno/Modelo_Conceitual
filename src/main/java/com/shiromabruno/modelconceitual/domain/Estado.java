@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Estado implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
@@ -23,6 +25,10 @@ public class Estado implements Serializable{
 	private Integer id;
 	private String nome;
 	
+	
+	// esse comando eh pra fazer referencia ciclica QUE PÀRA AQUI, ou seja, nao ira chamad cidade, que por sua vez
+	// chamaria estado, que por sua vez chamaria cidade... e etc num loop
+	@JsonBackReference
 	//aqui seriam os relacionamentos / coleções
 	//Estado possui uma lista de cidades
 	// quem foi o atributo que mapeou do lado de la ?? na classe cidade o nome do atributo foi "estado"
