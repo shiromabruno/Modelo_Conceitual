@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
@@ -26,13 +29,20 @@ public class Pedido implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
+	// so vai serializar aqui. Em pagamento nao podera trazer o Pedido. sera q eh pq se fosse, iria trazer uma porrada de pagamento ?
+	// muitos pedidos terao 1 Cliente
+	@JsonManagedReference
 	//isso embaixo eh necessario pra conversar com classe PEDIDO no PEDIDO_ID. Coisa do JPA
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;
 	
+	// so vai serializar aqui. Em Cliente nao podera trazer o Pedido. sera q eh pq se fosse, iria trazer uma porrada de pedido ?
 	// muitos pedidos terao 1 Cliente
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;

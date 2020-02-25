@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
@@ -12,8 +14,12 @@ public class ItemPedido implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	// A partir do PEDIDO, nao ira serializar nem ITEM PEDIDO e nem PRODUTO
+	
 	// eh um ID embutido em tipo auxiliar. Id de fora (?)
 	// eh uma chave composta e usamos uma classe (ITEMPEDIDOPK) para representala
+	//@JsonIgnore ---> ignora tudo q vem do ITEM PEDIDO PK
+	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
@@ -36,6 +42,8 @@ public class ItemPedido implements Serializable{
 		this.preco = preco;
 	}
 	
+	// tem ignore senao faz referencia ciclica. Tudo que comeca com GET, ele entende q tem q serializar
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}

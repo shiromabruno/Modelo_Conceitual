@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 
@@ -32,8 +33,10 @@ public abstract class Pagamento implements Serializable{
 	private Integer id;
 	private Integer estado;
 	
+	// back reference com Pedido. Entao essa classe pagamento nao vai serializar (trazer) os pedidos associados
 	// aqui 1 pedido tem 1 pagamento. O que unirá os dois sera o PEDIDO ID
 	// para garantir que o ID do pagamento seja o mesmo do ID do pedido, deve usar @MapsId
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
