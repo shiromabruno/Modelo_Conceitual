@@ -13,6 +13,7 @@ import com.shiromabruno.modelconceitual.domain.Cidade;
 import com.shiromabruno.modelconceitual.domain.Cliente;
 import com.shiromabruno.modelconceitual.domain.Endereco;
 import com.shiromabruno.modelconceitual.domain.Estado;
+import com.shiromabruno.modelconceitual.domain.ItemPedido;
 import com.shiromabruno.modelconceitual.domain.Pagamento;
 import com.shiromabruno.modelconceitual.domain.PagamentoComBoleto;
 import com.shiromabruno.modelconceitual.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.shiromabruno.modelconceitual.repositories.CidadeRepository;
 import com.shiromabruno.modelconceitual.repositories.ClienteRepository;
 import com.shiromabruno.modelconceitual.repositories.EnderecoRepository;
 import com.shiromabruno.modelconceitual.repositories.EstadoRepository;
+import com.shiromabruno.modelconceitual.repositories.ItemPedidoRepository;
 import com.shiromabruno.modelconceitual.repositories.PagamentoRepository;
 import com.shiromabruno.modelconceitual.repositories.PedidoRepository;
 import com.shiromabruno.modelconceitual.repositories.ProdutoRepository;
@@ -49,6 +51,8 @@ public class ModelconceitualApplication implements CommandLineRunner{
 	private PedidoRepository pedidorepository;
 	@Autowired
 	private PagamentoRepository pagamentorepository;
+	@Autowired
+	private ItemPedidoRepository itempedidorepository;
 	
 	public static void main(String[] args) {	
 		SpringApplication.run(ModelconceitualApplication.class, args);
@@ -120,6 +124,19 @@ public class ModelconceitualApplication implements CommandLineRunner{
 				
 		pedidorepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentorepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itempedidorepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 
 	}
 
