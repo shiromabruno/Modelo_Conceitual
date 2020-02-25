@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Cidade implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
@@ -27,7 +25,10 @@ public class Cidade implements Serializable{
 	
 	// esse comando eh pra fazer referencia ciclica somente aqui, e nao nos estados, senao cidade tem estado
 	// e esses estado tem cidades, que por sua vez tem estado, que por sua vez tem cidade...
-	@JsonManagedReference
+		// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+//	@JsonManagedReference
 	//associacao / coleções
 	//a cidade possui (ou pertence) a 1 estado
 	//Nome da chave estrangeira estado_id.

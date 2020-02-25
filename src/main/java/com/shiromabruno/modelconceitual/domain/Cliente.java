@@ -14,8 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shiromabruno.modelconceitual.domain.enums.TipoCliente;
 
 @Entity
@@ -39,7 +38,10 @@ public class Cliente implements Serializable{
 	
 	// esse comando eh pra fazer referencia ciclica somente aqui, e nao nos enderecos, senao cliente tem enderecos
 	// e esses enderecos tem clientes, que por sua vez tem enderecos, que por sua vez tem clientes...
-	@JsonManagedReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+	//@JsonManagedReference
 	//esse "cliente" eh o nome do campo que foi mapeado la em endereço
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -52,7 +54,11 @@ public class Cliente implements Serializable{
 	
 	// o Pedido do cliente nao va ser Serializado
 	// sera q eh pq se fosse, iria trazer uma porrada de pedido ?
-	@JsonBackReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+	//@JsonBackReference
+	@JsonIgnore	
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	

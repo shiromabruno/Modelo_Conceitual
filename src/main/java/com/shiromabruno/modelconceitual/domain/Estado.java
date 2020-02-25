@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Estado implements Serializable{
@@ -28,7 +28,11 @@ public class Estado implements Serializable{
 	
 	// esse comando eh pra fazer referencia ciclica QUE PÀRA AQUI, ou seja, nao ira chamad cidade, que por sua vez
 	// chamaria estado, que por sua vez chamaria cidade... e etc num loop
-	@JsonBackReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+//	@JsonBackReference
+	@JsonIgnore
 	//aqui seriam os relacionamentos / coleções
 	//Estado possui uma lista de cidades
 	// quem foi o atributo que mapeou do lado de la ?? na classe cidade o nome do atributo foi "estado"

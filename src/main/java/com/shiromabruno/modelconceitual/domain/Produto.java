@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -35,7 +34,11 @@ public class Produto implements Serializable{
 	
 	//Aqui o Json vai omitir a lista de categoria pra cada produto, pois ja foi buscado a lista categoria 
 	//com os produtos associados na classe Categoria
-	@JsonBackReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+	//@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA",
 	joinColumns = @JoinColumn(name = "produto_id"),

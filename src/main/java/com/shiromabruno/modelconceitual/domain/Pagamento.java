@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 
@@ -36,7 +36,11 @@ public abstract class Pagamento implements Serializable{
 	// back reference com Pedido. Entao essa classe pagamento nao vai serializar (trazer) os pedidos associados
 	// aqui 1 pedido tem 1 pagamento. O que unirá os dois sera o PEDIDO ID
 	// para garantir que o ID do pagamento seja o mesmo do ID do pedido, deve usar @MapsId
-	@JsonBackReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+		// no envio de dados Json em requisicao.
+		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+	//@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId

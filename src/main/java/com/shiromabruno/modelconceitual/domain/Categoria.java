@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Categoria implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
@@ -28,7 +26,10 @@ public class Categoria implements Serializable{
 	
 	//Vc coloca essa anotacao Json no lugar onde vc queer que venha os objetos associados
 	//Aparecera: Categora Informatica --> Computador, Impressora e Mouse
-	@JsonManagedReference
+	// UPDATE ultima aula: JsonManagedReference e JsonBackReference estava dando problema na hora da requisicao
+	// no envio de dados Json em requisicao.
+	//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
+	// @JsonManagedReference
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
