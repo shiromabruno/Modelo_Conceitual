@@ -3,10 +3,12 @@ package com.shiromabruno.modelconceitual.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.shiromabruno.modelconceitual.domain.Categoria;
 import com.shiromabruno.modelconceitual.repositories.CategoriaRepository;
+import com.shiromabruno.modelconceitual.services.exceptions.DataIntegrityExceptionYuji;
 import com.shiromabruno.modelconceitual.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -43,6 +45,21 @@ public class CategoriaService {
 			
 			find(obj.getId());
 			return repo.save(obj);
+		}
+		
+		// se vc deletar uma categoria que ja existem PRODUTOS associados a ela, dará erro.
+		// 2 solucoes. a primeira eh deletar os PRODUTOS tbm, a segunda eh ABORTAR a deleção dessa categoria = BAD REQUEST
+		public void delete(Integer id) {
+			// se o find nao achar, ja dispara a exceção
+			find(id);
+			
+			try {
+			repo.deleteById(id);
+			}
+			catch (DataIntegrityViolationException e) {
+				throw new DataIntegrityExceptionYuji("Nao eh possivel Excluir Categoria que possui Produtos");
+				
+			}
 		}
 	}
 
