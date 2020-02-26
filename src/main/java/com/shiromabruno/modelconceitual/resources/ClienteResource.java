@@ -19,7 +19,9 @@ public class ClienteResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 //	public List<Cliente> listar() {
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	//	public ResponseEntity<?> find(@PathVariable Integer id) {
+	// Trocou de "?" para Cliente, pois se nao trazer nada, dá a exceção
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 // ? significa que pode trazer ou nao o obj		
 		Cliente obj = service.find(id);
 		

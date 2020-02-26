@@ -23,7 +23,10 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 //	public List<Categoria> listar() {
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+//	public ResponseEntity<?> find(@PathVariable Integer id) {
+	
+	// Trocou de "?" para Categoria, pois se nao trazer nada, dá a exceção
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 // ? significa que pode trazer ou nao o obj		
 		Categoria obj = service.find(id);
 		
@@ -49,5 +52,13 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj = service.update(obj);
+		// retornarei um conteudo vazio ?
+		return ResponseEntity.noContent().build();
 	}
 }

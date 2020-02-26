@@ -22,7 +22,10 @@ public class PedidoResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 //	public List<Pedido> listar() {
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	
+	//public ResponseEntity<?> find(@PathVariable Integer id) {
+	// Trocou de "?" para Pedido, pois se nao trazer nada, dá a exceção
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 // ? significa que pode trazer ou nao o obj		
 		Pedido obj = service.find(id);
 		

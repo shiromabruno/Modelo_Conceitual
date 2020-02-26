@@ -34,5 +34,15 @@ public class CategoriaService {
 			// vai retornar o objeto Categoria 
 			return repo.save(obj);
 		}
+		
+		public Categoria update(Categoria obj) {
+			// comando abaixo garante que o ID eh nullo. Se nao fosse nulo, significa que seria updte
+			// o  id eh IDENTITY
+			// obj.setId(null); --> nao precisa pois se tiver esse comando, significa que eh INSERT
+			// vai retornar o objeto Categoria 
+			
+			find(obj.getId());
+			return repo.save(obj);
+		}
 	}
 
