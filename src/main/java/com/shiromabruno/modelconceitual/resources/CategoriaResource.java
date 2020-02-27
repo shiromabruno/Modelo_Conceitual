@@ -1,6 +1,8 @@
 package com.shiromabruno.modelconceitual.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.shiromabruno.modelconceitual.domain.Categoria;
+import com.shiromabruno.modelconceitual.dto.CategoriaDTO;
 import com.shiromabruno.modelconceitual.services.CategoriaService;
 
 @RestController
@@ -67,5 +70,20 @@ public class CategoriaResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		// precisa converter o comando abaixo para CategoriaDTO	
+		
+		        List <Categoria> list = service.findAll();
+		        // stream, percorrer a lista
+		        // map, uma operacao pra cada elemento da lista. Cada elemento da lista dei o nome de OBJ1
+		        // e pra cada elemento da lista passa como argumento
+		        // precisa retornar esse stream stream().map(obj -> new CategoriaDTO(obj)) para o tipo lista
+		        // e pra isso usa o Collectors.toList()
+		        List <CategoriaDTO> listDto = list.stream().map(obj1 -> new CategoriaDTO(obj1)).collect(Collectors.toList());
+		        // esse comando acima converteu uma lista para outra lista
+				return ResponseEntity.ok().body(listDto);
+			}
 	
 }
