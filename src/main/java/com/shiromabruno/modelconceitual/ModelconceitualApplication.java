@@ -35,6 +35,8 @@ import com.shiromabruno.modelconceitual.repositories.ProdutoRepository;
 //public class ModelconceitualApplication {
 public class ModelconceitualApplication implements CommandLineRunner{
     
+	//Teste usando TEAM do STS
+	
 	@Autowired
 	private CategoriaRepository categoriarepository;
 	@Autowired
