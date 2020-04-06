@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -27,5 +29,22 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
+	// essa excecao eh espeifica do Controller (?) as 2 de cima sao do Services
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
+		
+		// esse erro de Validacao aparece no retorno
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validacao", System.currentTimeMillis());
+		// com esse comando, acessa todos os erros de campos que ocorreram nessa excecao MethodArgumentNotValidException
+		// cada tipo FieldError X, nessa lista 'e.getBindingResult().getFieldErrors()' , vai fazer: corpo do FOR
+		// essa Lista de Errors esta na classe do FieldError e nao no StandardError, mas sem problemas pois FieldError eh filha do StandardError
+		for(FieldError x : e.getBindingResult().getFieldErrors()) {
+			err.addError(x.getField(), x.getDefaultMessage());
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
 
 }
