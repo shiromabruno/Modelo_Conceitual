@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +50,10 @@ public class CategoriaResource {
 	   	
 **/
 	@RequestMapping(method=RequestMethod.POST)	
-	// esse @RequestBody --> o obj categoria sera construido dos dados Json que recebeu. Converte em obj Java Categoria
-	public ResponseEntity<Void>	insert(@RequestBody Categoria obj){
+	// esse @RequestBody --> o obj categoria sera construido dos dados Json que recebeu. Converte em obj Java CategoriaDTO
+	// esse @Valid --> ele valida as validacoes que estao na classe CAtegoriaDTO, se nao passar, nao entra no metodo
+	public ResponseEntity<Void>	insert( @Valid @RequestBody CategoriaDTO objDTO){
+		Categoria obj = service.fromDTO(objDTO);
 	   // esse OBJ abaixo, mantem pois a operacao SAVE do Repository retorna objeto
 		obj = service.insert(obj);
 		// devemos retornar o URI pra indicar o ID como resposta
@@ -60,7 +64,8 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@ Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+		Categoria obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		// retornarei um conteudo vazio ?

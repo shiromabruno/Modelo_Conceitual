@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.shiromabruno.modelconceitual.domain.Categoria;
+import com.shiromabruno.modelconceitual.dto.CategoriaDTO;
 import com.shiromabruno.modelconceitual.repositories.CategoriaRepository;
 import com.shiromabruno.modelconceitual.services.exceptions.DataIntegrityExceptionYuji;
 import com.shiromabruno.modelconceitual.services.exceptions.ObjectNotFoundException;
@@ -75,6 +76,10 @@ public class CategoriaService {
 		public List <Categoria> findAll() {
 			return repo.findAll();
 			
+		}
+		
+		public Categoria fromDTO(CategoriaDTO objDto) {
+			return new Categoria(objDto.getId(), objDto.getNome());
 		}
 	}
 
