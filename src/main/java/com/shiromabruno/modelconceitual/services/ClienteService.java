@@ -9,11 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.shiromabruno.modelconceitual.domain.Cidade;
 import com.shiromabruno.modelconceitual.domain.Cliente;
-import com.shiromabruno.modelconceitual.domain.Cliente;
+import com.shiromabruno.modelconceitual.domain.Endereco;
+import com.shiromabruno.modelconceitual.domain.enums.TipoCliente;
 import com.shiromabruno.modelconceitual.dto.ClienteDTO;
+import com.shiromabruno.modelconceitual.dto.ClienteNewDTO;
 import com.shiromabruno.modelconceitual.repositories.ClienteRepository;
+import com.shiromabruno.modelconceitual.repositories.EnderecoRepository;
 import com.shiromabruno.modelconceitual.services.exceptions.DataIntegrityExceptionYuji;
 import com.shiromabruno.modelconceitual.services.exceptions.ObjectNotFoundException;
 
@@ -22,6 +27,10 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	
 //	public Cliente buscar(Integer id) {
 //		Optional<Cliente> obj = repo.findById(id);  
@@ -36,13 +45,16 @@ public class ClienteService {
 		  // esse .getName() eh um metodo que volta o caminho do pacote + nome da classe
 		}
 		
-		
+		// Colocou transactional para garantir que salva o cliente e seus enderecos na mesma transacao no banco de dados
+		// Objetivo eh salvar no REPOSITORY Cliente e REPOSITORY Endereco, tudo junto
+		@Transactional
 		public Cliente insert(Cliente obj) {
 			// comando abaixo garante que o ID eh nullo. Se nao fosse nulo, significa que seria updte
 			// o  id eh IDENTITY
 			obj.setId(null);
-			// vai retornar o objeto Cliente 
-			return repo.save(obj);
+			obj = repo.save(obj);
+			enderecoRepository.saveAll(obj.getEnderecos());
+			return obj;
 		}
 		
 		public Cliente update(Cliente obj) {
@@ -88,11 +100,33 @@ public class ClienteService {
 			
 		}
 		
+		//Criando um objeto Cliente a partir de um ClienteDto
 		public Cliente fromDTO(ClienteDTO objDto) {
             // CPF/CNPJ e TipoCliente serao NULL abaixo, pois agora nao iremos alterar CPF/CNPJ e TipoCliente
 			return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+			
 			// comando abaixo eh temporario, pois implantaremos depois o fromDTO. 
 			//throw new UnsupportedOperationException();
+		}
+		
+		//Criando um objeto Cliente a partir de um ClienteNewDto
+		public Cliente fromDTO(ClienteNewDTO objDto) {
+		// o objDto.getTipo() retorna um INTEGER, mas o Cliente aceita um TipoCliente, entao precisa do ToEnum()
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cid = new Cidade(objDto.getCidadeId(), null, null); // aqui presume que a cidade ja esteja criada ?
+		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);	
+		cli.getEnderecos().add(end);
+		cli.getTelefones().add(objDto.getTelefone1());
+		
+		if(objDto.getTelefone2()!=null) {
+			cli.getTelefones().add(objDto.getTelefone2());
+		}
+		if(objDto.getTelefone3()!=null) {
+			cli.getTelefones().add(objDto.getTelefone3());
+		}
+		
+		return cli;
+		
 		}
 		
 		// Atualizar newObj com os novos dados que vieram no obj. No caso é o nome e email

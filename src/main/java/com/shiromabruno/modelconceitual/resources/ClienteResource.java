@@ -1,5 +1,6 @@
 package com.shiromabruno.modelconceitual.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.shiromabruno.modelconceitual.domain.Cliente;
 import com.shiromabruno.modelconceitual.dto.ClienteDTO;
+import com.shiromabruno.modelconceitual.dto.ClienteNewDTO;
 import com.shiromabruno.modelconceitual.services.ClienteService;
 
 @RestController
@@ -95,4 +98,21 @@ public class ClienteResource {
 		        // esse comando acima converteu uma lista para outra lista
 				return ResponseEntity.ok().body(listDto);
 			}
+	
+	@RequestMapping(method=RequestMethod.POST)	
+	// esse @RequestBody --> o obj categoria sera construido dos dados Json que recebeu. Converte em obj Java CategoriaDTO
+	// esse @Valid --> ele valida as validacoes que estao na classe CAtegoriaDTO, se nao passar, nao entra no metodo
+	public ResponseEntity<Void>	insert( @Valid @RequestBody ClienteNewDTO objDTO){
+		//Instanciar um cliente a partir de um ClienteNewDto
+		Cliente obj = service.fromDTO(objDTO);
+	   // esse OBJ abaixo, mantem pois a operacao SAVE do Repository retorna objeto
+		obj = service.insert(obj);
+		// devemos retornar o URI pra indicar o ID como resposta
+		//FromCurrentRequest pega o URI chamado e adiciona o /"{id}"
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	
 }
