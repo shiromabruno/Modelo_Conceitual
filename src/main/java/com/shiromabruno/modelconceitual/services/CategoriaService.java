@@ -48,8 +48,16 @@ public class CategoriaService {
 			// obj.setId(null); --> nao precisa pois se tiver esse comando, significa que eh INSERT
 			// vai retornar o objeto Categoria 
 			
-			find(obj.getId());
-			return repo.save(obj);
+			//COPIADO DO CLIENTE SERVICE
+			//Problema: fizemos put cliente atualizando nome e email (cpf e TipoCliente ja tinha)
+			//Ai atualizou registro todo e o cpf e TipoCliente ficou como null (fromDTO metodo la embaixo)
+			//Para resolver:
+			//instanciar um cliente a partir do banco de dados (newObj)
+			//UpdateData --> atualiza os dados desse novo objeto q vc criou com base no objeto que veio no argumento
+			//vai chamar UpdateData e fazer update nesse novo objeto com os dados atualizados
+			Categoria newObj = find(obj.getId());
+			updateData(newObj, obj);
+			return repo.save(newObj);
 		}
 		
 		// se vc deletar uma categoria que ja existem PRODUTOS associados a ela, dará erro.
@@ -81,5 +89,12 @@ public class CategoriaService {
 		public Categoria fromDTO(CategoriaDTO objDto) {
 			return new Categoria(objDto.getId(), objDto.getNome());
 		}
+		
+		//COPIADO DO CLIENTE SERVICE
+		// Atualizar newObj com os novos dados que vieram no obj. No caso é o nome e email
+				private void updateData(Categoria newObj, Categoria obj) {
+					newObj.setNome(obj.getNome());
+					
+				}
 	}
 
