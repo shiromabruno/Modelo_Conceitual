@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -43,7 +44,8 @@ public class Cliente implements Serializable{
 		//Solucao: tirar JsonManagedReference. No JsonBackReference, tirar ele e colocar o JsonIgnore
 	//@JsonManagedReference
 	//esse "cliente" eh o nome do campo que foi mapeado la em endereço
-	@OneToMany(mappedBy="cliente")
+    // o comando cascade=CascadeType.ALL --> quando deletar um CLIENTE, vai deletar tambem TODOS os Enderecos associados a esse CLIENTE
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Set eh conjunto q nao aceita repetição
