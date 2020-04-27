@@ -2,24 +2,48 @@ package com.shiromabruno.modelconceitual.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.shiromabruno.modelconceitual.services.validation.ClienteInsert;
+
 // Nesse DTO eh pra salvar essas INFO abaixo, o ID do Cliente e ID do Endereco nao precisa
 // A requisicao vai enviar com esses Dados
+
+// A anotacao fica aqui pois a classe Validator associa o DTO da classe, e nao do campo
+@ClienteInsert
 public class ClienteNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message="Preenchimento obrigatorio")
+	@Length(min=5, max=120, message="O  tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
+	
+	@NotEmpty(message="Preenchimento obrigatorio")
+	@Email(message="Preenchimento obrigatorio")
 	private String email;
+	
+	@NotEmpty(message="Preenchimento obrigatorio")
+	// Se o campo fosse separado (CPF ou CNPJ) poderia usar o @CPF ou @CNPJ, mas o campo é ambos. Logo vamos criar uma nova notacao
 	private String cpfOuCnpj;
+	
 	// internamente o tipo clietne eh armazenado como inteiro
 	// mas externamente a classe vai expor esse dado como sendo TipoCliente
+	// Tipo é inteiro. Nao tem validacao pois NotEmpty so se aplica rpa STRING (?)
 	private Integer tipo;
 	
+	@NotEmpty(message="Preenchimento obrigatorio")
 	private String logradouro;
 	private String numero;
 	private String complemento;
 	private String bairro;
+	
+	@NotEmpty(message="Preenchimento obrigatorio")
 	private String cep;
 	
+	@NotEmpty(message="Preenchimento obrigatorio")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;

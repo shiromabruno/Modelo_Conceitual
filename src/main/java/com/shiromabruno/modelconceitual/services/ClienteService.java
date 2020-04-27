@@ -100,6 +100,7 @@ public class ClienteService {
 			
 		}
 		
+		//PUT
 		//Criando um objeto Cliente a partir de um ClienteDto
 		public Cliente fromDTO(ClienteDTO objDto) {
             // CPF/CNPJ e TipoCliente serao NULL abaixo, pois agora nao iremos alterar CPF/CNPJ e TipoCliente
@@ -109,6 +110,7 @@ public class ClienteService {
 			//throw new UnsupportedOperationException();
 		}
 		
+		//POST
 		//Criando um objeto Cliente a partir de um ClienteNewDto
 		public Cliente fromDTO(ClienteNewDTO objDto) {
 		// o objDto.getTipo() retorna um INTEGER, mas o Cliente aceita um TipoCliente, entao precisa do ToEnum()
