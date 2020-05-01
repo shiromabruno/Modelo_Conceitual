@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.shiromabruno.modelconceitual.resources.exception.StandardError;
 
+//Essa classe so tem a mais uma lista de erros. Outras infos sao extendidos do StandardError (precisava?)
 public class ValidationError extends StandardError {
 
 	private static final long serialVersionUID = 1L;

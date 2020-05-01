@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+//Essa notacao deve ficar em 'standby' esperando acontecer erro no CONTROLLER
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
@@ -31,11 +32,12 @@ public class ResourceExceptionHandler {
 	}
 	
 	// essa excecao eh espeifica do Controller (?) as 2 de cima sao do Services
+	// Qualuer erro
 	@ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
 		
 		// esse erro de Validacao aparece no retorno
-		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validacao", System.currentTimeMillis());
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validacao ResourceExceptionHandler.class", System.currentTimeMillis());
 		// com esse comando, acessa todos os erros de campos que ocorreram nessa excecao MethodArgumentNotValidException
 		// cada tipo FieldError X, nessa lista 'e.getBindingResult().getFieldErrors()' , vai fazer: corpo do FOR
 		// essa Lista de Errors esta na classe do FieldError e nao no StandardError, mas sem problemas pois FieldError eh filha do StandardError

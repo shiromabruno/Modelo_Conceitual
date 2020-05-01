@@ -15,7 +15,7 @@ import javax.validation.Payload;
 //Esse ClienteInsert passara a ser a nossa nova notacao
 //Tambem tera que criar o Validator para programar as caracteristicas da notacao
 public @interface ClienteInsert {
-	String message() default "Erro de validação";
+	String message() default "Erro de validação - ClienteInsert.class";
 
 	Class<?>[] groups() default {};
 

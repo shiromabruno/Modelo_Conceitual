@@ -15,12 +15,12 @@ public class ClienteDTO implements Serializable{
 	
 	//essas 3 coisas ele pode mudar
 	private Integer id;
-	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min=5, max =120, message="Tamanho do nome de 5 ate 120")
+	@NotEmpty(message = "Preenchimento obrigatorio - ClienteDTO.class")
+	@Length(min=5, max =120, message="Tamanho do nome de 5 ate 120 - ClienteDTO.class")
 	private String nome;
 	
-	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Email(message = "Email invalido")
+	@NotEmpty(message = "Preenchimento obrigatorio - ClienteDTO.class")
+	@Email(message = "Email invalido - ClienteDTO.class")
 	private String email;
 	
 	public ClienteDTO() {

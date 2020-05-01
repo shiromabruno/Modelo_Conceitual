@@ -17,15 +17,15 @@ import com.shiromabruno.modelconceitual.services.validation.ClienteInsert;
 public class ClienteNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	@Length(min=5, max=120, message="O  tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	@Email(message="Preenchimento obrigatorio")
 	private String email;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	// Se o campo fosse separado (CPF ou CNPJ) poderia usar o @CPF ou @CNPJ, mas o campo é ambos. Logo vamos criar uma nova notacao
 	private String cpfOuCnpj;
 	
@@ -34,16 +34,16 @@ public class ClienteNewDTO implements Serializable{
 	// Tipo é inteiro. Nao tem validacao pois NotEmpty so se aplica rpa STRING (?)
 	private Integer tipo;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	private String logradouro;
 	private String numero;
 	private String complemento;
 	private String bairro;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	private String cep;
 	
-	@NotEmpty(message="Preenchimento obrigatorio")
+	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
