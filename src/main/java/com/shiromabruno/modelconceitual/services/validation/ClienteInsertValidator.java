@@ -45,6 +45,7 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 	    	list.add(new FieldMessage("cpfOuCnpj", "CNPJ invalido - ClienteInsertValidator.class"));
 	    }
 	    
+	    //Chama o findByEmail do Repositorio
 	    Cliente aux = repo.findByEmail(objDto.getEmail());
 	    if (aux != null) {
 	    	list.add(new FieldMessage("Email", "Email ja existente - ClienteInsertValidator.class"));

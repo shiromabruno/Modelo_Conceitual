@@ -8,7 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.shiromabruno.modelconceitual.domain.Cliente;
+import com.shiromabruno.modelconceitual.services.validation.ClienteUpdate;
 
+//Classe para ATUALIZAR Registro Cliente
+@ClienteUpdate
 public class ClienteDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1;
