@@ -35,7 +35,7 @@ import com.shiromabruno.modelconceitual.repositories.ProdutoRepository;
 //public class ModelconceitualApplication {
 public class ModelconceitualApplication implements CommandLineRunner{
     
-	/* Criando Branch from STS e Bash
+	/* 
 	 * JPQL eh linguagem de consulta da JPA (que por sua vez eh biblioteca padrao de mapeamento-objeto-relacional do Java
 	 * Eh obrigatorio ALIAS, exemplo:
 	 * 
