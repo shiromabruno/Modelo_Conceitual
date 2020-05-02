@@ -94,7 +94,8 @@ public class CategoriaResource {
 			}
 	
 	// path variable significa: ... categoria/page/8/20/campoX/ascendente
-	// sera por parametro: ?page=0&linesPerPage=20&orderBy=campoX...
+	// porem, RequestParm significa: ... ?page=0&linesPerPage=20&orderBy=campoX...
+	//@RequestParm --> aparece na URL esse campo igual a alguma coisa (linesPerPage=2)
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
