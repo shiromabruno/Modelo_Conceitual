@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 
@@ -22,6 +23,9 @@ import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+//essa notacao abaixo indica que o @TYPE define qual classe sera criada o Objeto (pagamento com cartao ou pagamento com boleto)
+//nas classes Extendidas, devera ter a Notacao @JsonTypeName
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable{
 	//Serializable = indica que os OBJs desta classe pode ser convertido em sequencia de Bytes
 	//para que OBJs possam ser gravados em arquivos, trafegar em redes... etc
