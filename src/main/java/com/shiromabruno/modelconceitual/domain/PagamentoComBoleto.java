@@ -5,9 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 @Entity
+//A notacao abaixo indica o Type que sera passado na requisicao. Se vier com o nome abaixo, eh criado um objeto dessa classe
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento{
 	
 	//Classe que extende de uma PAI, nao precisa colocar IMPLEMENTS SERIALIZEBLE

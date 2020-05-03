@@ -2,9 +2,12 @@ package com.shiromabruno.modelconceitual.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
 
 @Entity
+//A notacao abaixo indica o Type que sera passado na requisicao. Se vier com o nome abaixo, eh criado um objeto dessa classe
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
 	
 	//Classe que extende de uma PAI, nao precisa colocar IMPLEMENTS SERIALIZEBLE
