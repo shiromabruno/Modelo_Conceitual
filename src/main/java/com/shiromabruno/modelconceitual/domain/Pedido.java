@@ -74,6 +74,16 @@ public class Pedido implements Serializable{
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
+	
+	// Mesmo sem ninguem chamar esse metodo, ele aparece no reotno no POSTMAN...
+	// JSON deve reconhecer esse getValorTotal. Talvez tudo que tenha GET, ele traz no Response Entity
+	public double getValorTotal() {
+		double soma = 0.0;
+		for(ItemPedido ip : itens) {
+			soma = soma + ip.getSubValor();
+		}
+		return soma;
+	}
 
 	public Integer getId() {
 		return id;

@@ -42,11 +42,20 @@ public class ItemPedido implements Serializable{
 		this.preco = preco;
 	}
 	
+	// Mesmo sem ninguem chamar esse metodo, ele aparece no reotno no POSTMAN...
+	// JSON deve reconhecer esse getSubTotal. Talvez tudo que tenha GET, ele traz no Response Entity
+	public double getSubValor() {
+		return (preco - desconto) * quantidade;
+	}
+
+	
 	// tem ignore senao faz referencia ciclica. Tudo que comeca com GET, ele entende q tem q serializar
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
+	
+	
 
 	public Produto getProduto() {
 		return id.getProduto();
