@@ -45,6 +45,8 @@ public class Produto implements Serializable{
 	inverseJoinColumns = @JoinColumn (name = "categoria_id")
 	)
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	
 	// esse JSON IGNORE vai ignorar o ITEM PEDIDO, pois so queremos saber os PRODUTOS
 	@JsonIgnore
 	@OneToMany(mappedBy="id.produto")
