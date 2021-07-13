@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<start-class>com.shiromabruno.modelconceitual.ModelconceitualApplication</start-class>
 	</properties>
 
 	<dependencies>
