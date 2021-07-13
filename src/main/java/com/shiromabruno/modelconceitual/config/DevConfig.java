@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.shiromabruno.modelconceitual.services.DBService;
 
-//Configuracoes especificias do Profile Teste
+//Configuracoes especificias do Profile Testee
 @Configuration
 //Especifica que todos os Bean que tiverem nessa classe so serao ativos se no application.properties tiver ativo o "test"
 @Profile("dev")
