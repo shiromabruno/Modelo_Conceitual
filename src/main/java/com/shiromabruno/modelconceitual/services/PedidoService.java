@@ -34,6 +34,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ClienteService clienteService; // ASDASD. Usado para buscar o id Cliente e pegar o nome dele para o metodoToString, assim como os produtos
+	
 //	public Pedido buscar(Integer id) {
 //		Optional<Pedido> obj = repo.findById(id);  
 //		return obj.orElse(null); 
@@ -52,6 +55,7 @@ public class PedidoService {
 			//garantir que estou inserindo um novo pedido
 			obj.setId(null);
 			obj.setInstante(new Date());
+			obj.setCliente(clienteService.find(obj.getCliente().getId())); // ASDASD. Usado para setar o CLIENTE (passado pelo parametro) nesse PEDIDO obj
 			// Teoria: obj Pedido retorna um obj Pagamento que por sua vez seta seu atributo Estado de pagamento para PENDENTE
 			// Porem, esse obj Pagamento nem foi instanciado...
 			obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
@@ -69,10 +73,12 @@ public class PedidoService {
 			//Salvar Itens de Pedido
 			for(ItemPedido ip  : obj.getItens()) {  // obj.getItens() retorna --> Set<ItemPedido>
 				ip.setDesconto(0.0);
-				ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+				ip.setProduto(produtoService.find(ip.getProduto().getId())); // ASDASD usado para setar o PRODUTO (passado via obj Parametro) ao ItemPedido (s) novo sendo criado (s))
+				ip.setPreco(ip.getProduto().getPreco());
 				ip.setPedido(obj);
 			}
 			itemPedidoRepository.saveAll(obj.getItens());
+			System.out.println(obj); // Colocando o obj dentro de um PRINTLN, automaticamente chama o toString desse objeto!
 			return obj;
 		}
 	}

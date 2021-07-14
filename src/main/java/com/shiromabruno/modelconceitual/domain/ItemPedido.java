@@ -1,6 +1,8 @@
 package com.shiromabruno.modelconceitual.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -124,6 +126,22 @@ public class ItemPedido implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	//toString para transformar o objeto pedido em string e enviar por email. Usou o StringBuilder/StringBuffer mais performatico
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // formatar de 2000.0 para R$2000
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Quantidade: ");
+		builder.append(getQuantidade());
+		builder.append(", Preco unitario: ");
+		builder.append(nf.format(getPreco()));
+		builder.append(", Subtotal: ");
+		builder.append(nf.format(getSubValor()));
+		builder.append("\n");
+		return builder.toString();
 	}
 	
 	

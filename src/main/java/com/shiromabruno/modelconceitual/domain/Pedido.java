@@ -1,8 +1,11 @@
 package com.shiromabruno.modelconceitual.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -157,6 +160,30 @@ public class Pedido implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	//toString para transformar o objeto pedido em string e enviar por email. Usou o StringBuilder/StringBuffer mais performatico
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); // formatar de 2000.0 para R$ 2.000,00
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); // formatar data Wed Jul 14 17:43:31 BRT 2021 para 14/07/2021 05:48:13
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido numero: ");
+		builder.append(getId());
+		builder.append(", Instante: ");
+		builder.append(sdf.format(getInstante()));
+		builder.append(", Cliente: ");
+		builder.append(getCliente().getNome());
+		builder.append(", Situacao Pagamento: ");
+		builder.append(getPagamento().getEstado().getDescricao());
+		builder.append("\n");
+		builder.append("\nDetalhes:\n");
+		for(ItemPedido ip: getItens()) {
+			builder.append(ip.toString()); // implementado ja na classe ItemPedido, vira na ordem correta
+		}
+		builder.append("Valor total: ");
+		builder.append(nf.format(getValorTotal()));
+		return builder.toString();
 	}
 
 
