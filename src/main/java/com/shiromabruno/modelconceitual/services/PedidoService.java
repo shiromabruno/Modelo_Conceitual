@@ -37,6 +37,9 @@ public class PedidoService {
 	@Autowired
 	private ClienteService clienteService; // ASDASD. Usado para buscar o id Cliente e pegar o nome dele para o metodoToString, assim como os produtos
 	
+	@Autowired
+	private EmailService emailServicekkk; // retorna MockEmailService que esta no TestConfig.java
+	
 //	public Pedido buscar(Integer id) {
 //		Optional<Pedido> obj = repo.findById(id);  
 //		return obj.orElse(null); 
@@ -78,7 +81,8 @@ public class PedidoService {
 				ip.setPedido(obj);
 			}
 			itemPedidoRepository.saveAll(obj.getItens());
-			System.out.println(obj); // Colocando o obj dentro de um PRINTLN, automaticamente chama o toString desse objeto!
+			//System.out.println(obj); // TESTE DO TOSTRING. Colocando o obj dentro de um PRINTLN, automaticamente chama o toString desse objeto!
+			emailServicekkk.sendOrderConfirmationEmail(obj); // Eh uma interface. Como fazer para ele instanciar da classe MockEmailService? La no TestConfig.java
 			return obj;
 		}
 	}
