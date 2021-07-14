@@ -13,7 +13,7 @@ import com.shiromabruno.modelconceitual.services.DBService;
 //Configuracoes especificias do Profile Teste
 @Configuration
 //Especifica que todos os Bean que tiverem nessa classe so serao ativos se no application.properties tiver ativo o "test"
-@Profile("prod")
+@Profile("prodteste")
 public class ProdConfig {
 	
 	@Autowired
