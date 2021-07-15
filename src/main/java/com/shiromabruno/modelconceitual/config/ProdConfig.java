@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.shiromabruno.modelconceitual.services.DBService;
+import com.shiromabruno.modelconceitual.services.EmailService;
+import com.shiromabruno.modelconceitual.services.MockEmailService;
+import com.shiromabruno.modelconceitual.services.SmtpEmailService;
 
 //Configuracoes especificias do Profile Teste
 @Configuration
@@ -32,4 +35,5 @@ public class ProdConfig {
 		dbservice.instantiateTestDatabase();
 		return true;
 	}
+		
 }

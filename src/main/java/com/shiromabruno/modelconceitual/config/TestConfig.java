@@ -30,7 +30,7 @@ public class TestConfig {
 	// Quando faz um metodo com BEAN, o metodo estara disponivel como um COMPONENTE no sistema
 	// Se outra classe fazer uma injecao de dependencia de uma instancia de EmailService (no caso instanciei objeto emailServicekkk na classe PedidoService), o Spring procurara um componente que pode ser o @BEAN que me devolve uma instancia dele
 	@Bean
-	public EmailService emailServicekkk() {
+	public EmailService metodoQualquerCoisa() {
 		return new MockEmailService();
 	}
 }
