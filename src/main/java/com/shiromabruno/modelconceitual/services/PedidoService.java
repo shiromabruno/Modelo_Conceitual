@@ -81,8 +81,10 @@ public class PedidoService {
 				ip.setPedido(obj);
 			}
 			itemPedidoRepository.saveAll(obj.getItens());
+			// Erro PKIX LOCAL = desativar ANTIVIRUS
 			//System.out.println(obj); // TESTE DO TOSTRING. Colocando o obj dentro de um PRINTLN, automaticamente chama o toString desse objeto!
 			emailServicekkk.sendOrderConfirmationEmail(obj); // Eh uma interface. Como fazer para ele instanciar da classe MockEmailService? La no TestConfig.java
+			emailServicekkk.sendOrderConfirmationHtmlEmail(obj); // chama o envio HTML. A logica eh a mesma do sendOrderConfirmationEmail
 			return obj;
 		}
 	}
