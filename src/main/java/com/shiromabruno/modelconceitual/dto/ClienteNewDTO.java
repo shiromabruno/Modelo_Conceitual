@@ -34,6 +34,9 @@ public class ClienteNewDTO implements Serializable{
 	// Tipo é inteiro. Nao tem validacao pois NotEmpty so se aplica rpa STRING (?)
 	private Integer tipo;
 	
+	@NotEmpty
+	private String senha;
+	
 	@NotEmpty(message="Preenchimento obrigatorio - ClienteNewDTO.class")
 	private String logradouro;
 	private String numero;
@@ -157,6 +160,14 @@ public class ClienteNewDTO implements Serializable{
 
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shiromabruno.modelconceitual.domain.Categoria;
@@ -19,6 +20,7 @@ import com.shiromabruno.modelconceitual.domain.PagamentoComCartao;
 import com.shiromabruno.modelconceitual.domain.Pedido;
 import com.shiromabruno.modelconceitual.domain.Produto;
 import com.shiromabruno.modelconceitual.domain.enums.EstadoPagamento;
+import com.shiromabruno.modelconceitual.domain.enums.Perfil;
 import com.shiromabruno.modelconceitual.domain.enums.TipoCliente;
 import com.shiromabruno.modelconceitual.repositories.CategoriaRepository;
 import com.shiromabruno.modelconceitual.repositories.CidadeRepository;
@@ -52,6 +54,8 @@ public class DBService {
 	private PagamentoRepository pagamentorepository;
 	@Autowired
 	private ItemPedidoRepository itempedidorepository;
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -107,10 +111,10 @@ public class DBService {
 
 		// id vc deixa NULL pois eh o banco quem cria
 		Estado est1 = new Estado(null, "Minas Gerais");
-		Estado est2 = new Estado(null, "São Paulo");
+		Estado est2 = new Estado(null, "Sao Paulo");
 
 		Cidade c1 = new Cidade(null, "Uberlandia", est1);
-		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c2 = new Cidade(null, "Sao Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 
 		// esta adicionando na lista de cidades do estado de MG, a cidade de uberlandia
@@ -121,16 +125,22 @@ public class DBService {
 		estadorepository.saveAll(Arrays.asList(est1, est2));
 		cidaderepository.saveAll(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "shiromayuji@gmail.com", "12345678901", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "shiromayuji@gmail.com", "12345678909", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("27334421", "927334421"));
-
+		
+		Cliente cli2 = new Cliente(null, "Usuario Admin", "bruno.shiroma@hotmail.com", "16335725010", TipoCliente.PESSOAFISICA, pe.encode("456"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli1.getTelefones().addAll(Arrays.asList("23456789", "934586357"));
+		
 		Endereco e1 = new Endereco(null, "Rua flores", "300", "Apt 303", "Jardim", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
-
-		clienterepository.saveAll(Arrays.asList(cli1));
-		enderecorepository.saveAll(Arrays.asList(e1, e2));
-
+		Endereco e3 = new Endereco(null, "Rua Dragon Ball", "191", null, "Rural", "02345986", cli2, c2);
+		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
+
+		clienterepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecorepository.saveAll(Arrays.asList(e1, e2, e3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	
 //	public Cliente buscar(Integer id) {
@@ -101,10 +105,10 @@ public class ClienteService {
 		}
 		
 		//PUT
-		//Criando um objeto Cliente a partir de um ClienteDto
+		//Criando um objeto Cliente a partir de um ClienteDto. Classe Cliente tem por exemplo atributos de pedidos, endereco , telefone
 		public Cliente fromDTO(ClienteDTO objDto) {
-            // CPF/CNPJ e TipoCliente serao NULL abaixo, pois agora nao iremos alterar CPF/CNPJ e TipoCliente
-			return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+            // CPF/CNPJ , TipoCliente e SENHA serao NULL abaixo, pois agora nao iremos alterar CPF/CNPJ e TipoCliente
+			return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
 			
 			// comando abaixo eh temporario, pois implantaremos depois o fromDTO. 
 			//throw new UnsupportedOperationException();
@@ -114,7 +118,7 @@ public class ClienteService {
 		//Criando um objeto Cliente a partir de um ClienteNewDto
 		public Cliente fromDTO(ClienteNewDTO objDto) {
 		// o objDto.getTipo() retorna um INTEGER, mas o Cliente aceita um TipoCliente, entao precisa do ToEnum()
-		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()), pe.encode(objDto.getSenha()));
 		Cidade cid = new Cidade(objDto.getCidadeId(), null, null); // aqui presume que a cidade ja esteja criada ?
 		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);	
 		cli.getEnderecos().add(end);
