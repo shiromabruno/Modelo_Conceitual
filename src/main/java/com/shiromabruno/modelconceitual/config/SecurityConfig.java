@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,6 +21,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	//dei autowired da INTERFACE, mas o Spring consegue vasculhar e colocar a implementacao dessa Interface (UserDetailsServiceImpl - pacote services)
+	@Autowired
+	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	private Environment env; // captura PROFILES para validar se estamos rodando como TEST/DEV/PROD...
@@ -49,6 +55,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(PUBLIC_MATCHERS).permitAll() //autoriza rotas para H2
 			.anyRequest().authenticated(); //para todo o resto, precisa do token. Nesse caso aparecera o 403
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // garante q nao armazena sessao de USUARIO
+	}
+	
+	//tem um segundo metodo configure pois
+	//como vamos usar a identificacao do framework, temos q sobrescrever esse metodo por 2 razoes:
+	//quem eh o UserDetaisService que estamos usando e quem eh o algoritmo de codificacao da senha (BCrypt)
+	//metodo para buscar o usuario(email) e validar para autenticacao
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 	
 	@Bean // definindo CorsConfigurationSource que permite acesso aos meus endpoints FROM multiplas fontes ("/**") com as configs basicas
