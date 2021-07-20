@@ -18,6 +18,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.shiromabruno.modelconceitual.security.JWTAuthenticationFilter;
+import com.shiromabruno.modelconceitual.security.JWTUtil;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -28,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private Environment env; // captura PROFILES para validar se estamos rodando como TEST/DEV/PROD...
+	
+	@Autowired
+	private JWTUtil jwtUtil; 
 	
 	//rotas que estao liberados, sem TOKEN
 	private static final String[] PUBLIC_MATCHERS = {
@@ -54,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() //autoriza todas as rotas do vetor para comandos GET APENAS!
 			.antMatchers(PUBLIC_MATCHERS).permitAll() //autoriza rotas para H2
 			.anyRequest().authenticated(); //para todo o resto, precisa do token. Nesse caso aparecera o 403
+		//authenticationManager ja eh um metodo disponivel em WebSecurityConfigurerAdapter
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // garante q nao armazena sessao de USUARIO
 	}
 	
